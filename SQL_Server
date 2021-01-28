@@ -1,0 +1,16 @@
+from sqlalchemy import create_engine
+import pandas as pd
+engine = create_engine('mssql+pyodbc://username:password@169.**.1**.***:1433/buildwith?driver=SQL Server?Trusted_Connection=yes')
+# df=pd.read_sql('select top 10 * from SC_sample',engine)
+
+ran=72
+num2=0
+while num2<33584:
+
+    
+    df=pd.read_csv('CRSP_header.csv',encoding='ISO-8859-1')[num2:num2+ran]
+    df.to_sql('CRSP_header',engine,if_exists='append',chunksize=100,index=False,schema='dbo',method='multi')
+    num2=num2+ran
+    print(num2)
+# print(df)
+print('-----done-------')
