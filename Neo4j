@@ -1,0 +1,6 @@
+from py2neo import Graph
+g = Graph('bolt://10.**.0.***:7687', user='****', password='***')
+
+query='''call apoc.periodic.iterate('load csv from "file:///ecommerceCheck1125.csv" as line return line[0] as url', 'match (p:Activity) , (c:Corp)-[:REACHED_AT]->(w:Website) where w.url=url and p.name = "eCommerce" merge (c)-[r:PARTICIPATES_IN {method:"modeled"}]->(p) set r.keyword="cart", r.source=url, c.updateTime=timestamp() return c,p',{parallel:false,batchSize:100})'''
+
+g.run(query)
